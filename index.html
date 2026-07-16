@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tiger Sport — Salle de boxe · Algérie</title>
+<style>
+  :root{
+    --ink:#0B0806;
+    --coal:#181009;
+    --coal-2:#221610;
+    --blood:#E5231B;
+    --flame:#FF7A1A;
+    --amber:#FFC24B;
+    --bone:#F5EDE3;
+    --muted:#B7A490;
+    --line:rgba(245,237,227,.12);
+    --display:"Avenir Next Condensed","Roboto Condensed","Arial Narrow",ui-sans-serif,system-ui,sans-serif;
+    --body:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    background:var(--ink);
+    color:var(--bone);
+    font-family:var(--body);
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--blood);color:var(--bone)}
+
+  h1,h2,h3,.disp{
+    font-family:var(--display);
+    font-stretch:condensed;
+    font-weight:800;
+    text-transform:uppercase;
+    line-height:.92;
+    margin:0;
+    text-wrap:balance;
+  }
+  p{margin:0}
+
+  .wrap{max-width:1060px;margin:0 auto;padding:0 20px}
+
+  .eyebrow{
+    font-family:var(--display);
+    font-stretch:condensed;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.22em;
+    font-size:.78rem;
+    color:var(--flame);
+  }
+
+  /* ---- griffure signature : trois lacérations ---- */
+  .claw{display:inline-flex;gap:7px;align-items:flex-end}
+  .claw i{
+    display:block;width:7px;border-radius:1px;
+    transform:skewX(-22deg);
+    background:linear-gradient(180deg,var(--flame),var(--blood));
+  }
+  .claw i:nth-child(1){height:34px}
+  .claw i:nth-child(2){height:26px}
+  .claw i:nth-child(3){height:18px}
+  .claw.sm i{width:5px}
+  .claw.sm i:nth-child(1){height:22px}
+  .claw.sm i:nth-child(2){height:17px}
+  .claw.sm i:nth-child(3){height:12px}
+
+  /* ---- barre haute ---- */
+  header.top{
+    position:sticky;top:0;z-index:50;
+    background:rgba(11,8,6,.88);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .top-in{display:flex;align-items:center;gap:10px;padding:10px 20px;max-width:1060px;margin:0 auto}
+  .top-in .mark{width:34px;height:34px;flex:none}
+  .wordmark{
+    font-family:var(--display);font-stretch:condensed;font-weight:800;
+    text-transform:uppercase;font-size:1.15rem;letter-spacing:.04em;
+    font-style:italic;
+  }
+  .wordmark b{color:var(--flame);font-weight:800}
+  .top-cta{
+    margin-left:auto;
+    font-family:var(--display);font-stretch:condensed;font-weight:700;
+    text-transform:uppercase;letter-spacing:.08em;font-size:.8rem;
+    color:var(--bone);text-decoration:none;
+    border:1px solid var(--blood);
+    padding:8px 14px;border-radius:3px;
+    background:linear-gradient(135deg,rgba(229,35,27,.25),rgba(255,122,26,.12));
+  }
+
+  /* ---- héro ---- */
+  .hero{
+    position:relative;
+    padding:52px 0 64px;
+    text-align:center;
+    background:
+      radial-gradient(120% 55% at 50% 0%,rgba(255,122,26,.14),transparent 60%),
+      radial-gradient(90% 40% at 50% 100%,rgba(229,35,27,.10),transparent 70%);
+    overflow:hidden;
+  }
+  .hero .mark{width:min(58vw,240px);height:auto;margin:26px auto 18px;display:block;filter:drop-shadow(0 12px 40px rgba(229,35,27,.35))}
+  .hero h1{
+    font-size:clamp(3.4rem,16vw,7.5rem);
+    font-style:italic;
+    letter-spacing:.01em;
+  }
+  .hero h1 .l2{
+    display:block;
+    background:linear-gradient(92deg,var(--flame) 20%,var(--blood) 80%);
+    -webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;color:transparent;
+  }
+  .hero .ar{
+    font-size:1rem;color:var(--muted);letter-spacing:.1em;margin-top:6px;
+  }
+  .hero .pitch{
+    max-width:34ch;margin:18px auto 0;color:var(--muted);font-size:1.02rem;
+  }
+  .cta-row{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:28px}
+  .btn{
+    font-family:var(--display);font-stretch:condensed;font-weight:800;
+    text-transform:uppercase;letter-spacing:.1em;font-size:.95rem;
+    text-decoration:none;color:var(--bone);
+    padding:15px 26px;border-radius:3px;
+    display:inline-block;
+  }
+  .btn.primary{
+    background:linear-gradient(135deg,var(--blood),#C2160F);
+    box-shadow:0 8px 28px rgba(229,35,27,.4);
+  }
+  .btn.ghost{border:1px solid var(--line);color:var(--muted)}
+  .btn:active{transform:translateY(1px)}
+
+  /* ---- bandeau défilant ---- */
+  .ticker{
+    border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+    background:var(--coal);
+    overflow:hidden;white-space:nowrap;
+    padding:12px 0;
+  }
+  .ticker span{
+    font-family:var(--display);font-stretch:condensed;font-weight:700;
+    text-transform:uppercase;letter-spacing:.18em;font-size:.82rem;
+    color:var(--muted);
+    padding:0 18px;
+  }
+  .ticker b{color:var(--flame);font-weight:700}
+
+  /* ---- sections ---- */
+  section{padding:64px 0}
+  .sec-head{display:flex;align-items:flex-end;gap:14px;margin-bottom:8px}
+  .sec-head h2{font-size:clamp(2.2rem,9vw,3.6rem);font-style:italic}
+  .sec-sub{color:var(--muted);max-width:52ch;margin-top:10px}
+
+  /* disciplines */
+  .cards{display:grid;gap:14px;margin-top:28px}
+  @media(min-width:720px){.cards{grid-template-columns:1fr 1fr}}
+  .card{
+    background:linear-gradient(160deg,var(--coal),var(--coal-2));
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:22px 20px 20px;
+    position:relative;
+    overflow:hidden;
+  }
+  .card::after{
+    content:"";position:absolute;inset:auto -30px -30px auto;
+    width:110px;height:110px;border-radius:50%;
+    background:radial-gradient(circle,rgba(255,122,26,.12),transparent 70%);
+  }
+  .card h3{font-size:1.55rem;font-style:italic;margin:10px 0 8px}
+  .card p{color:var(--muted);font-size:.95rem}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .chip{
+    font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;
+    font-weight:600;color:var(--amber);
+    border:1px solid rgba(255,194,75,.3);
+    padding:4px 10px;border-radius:999px;
+  }
+
+  /* planning */
+  .sched{display:grid;gap:10px;margin-top:28px}
+  .day{
+    background:var(--coal);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:14px 16px;
+    display:grid;grid-template-columns:64px 1fr;gap:4px 16px;align-items:start;
+  }
+  .day .dn{
+    font-family:var(--display);font-stretch:condensed;font-weight:800;
+    text-transform:uppercase;font-size:1.15rem;font-style:italic;
+    color:var(--flame);
+    grid-row:span 9;
+    padding-top:2px;
+  }
+  .slot{display:flex;gap:12px;font-size:.92rem;padding:3px 0}
+  .slot time{
+    font-variant-numeric:tabular-nums;
+    color:var(--amber);flex:none;width:110px;
+    font-weight:600;font-size:.88rem;
+  }
+  .slot span{color:var(--bone)}
+  .slot small{color:var(--muted);display:block;font-size:.8rem}
+  .day.off{opacity:.65}
+  .day.off .dn{color:var(--muted)}
+  .day.off .slot span{color:var(--muted);font-style:italic}
+
+  /* photos */
+  .gallery{display:grid;gap:12px;grid-template-columns:1fr 1fr;margin-top:28px}
+  .ph{
+    aspect-ratio:4/3;border-radius:6px;border:1px dashed rgba(245,237,227,.2);
+    background:repeating-linear-gradient(135deg,var(--coal) 0 14px,var(--ink) 14px 28px);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .ph:first-child{grid-column:span 2;aspect-ratio:16/9}
+  .ph em{
+    font-style:normal;font-family:var(--display);font-stretch:condensed;
+    font-weight:700;text-transform:uppercase;letter-spacing:.16em;
+    font-size:.72rem;color:var(--muted);
+    border:1px solid var(--line);padding:6px 12px;border-radius:999px;
+    background:rgba(11,8,6,.7);
+  }
+
+  /* tarifs */
+  .prices{display:grid;gap:14px;margin-top:28px}
+  @media(min-width:720px){.prices{grid-template-columns:repeat(3,1fr)}}
+  .price{
+    border:1px solid var(--line);border-radius:6px;
+    background:linear-gradient(160deg,var(--coal),var(--coal-2));
+    padding:24px 20px;text-align:center;position:relative;
+  }
+  .price.hot{border-color:rgba(229,35,27,.55);box-shadow:0 10px 34px rgba(229,35,27,.18)}
+  .price .tag{
+    position:absolute;top:-11px;left:50%;transform:translateX(-50%);
+    background:var(--blood);color:var(--bone);
+    font-family:var(--display);font-stretch:condensed;font-weight:700;
+    text-transform:uppercase;letter-spacing:.12em;font-size:.68rem;
+    padding:4px 12px;border-radius:999px;white-space:nowrap;
+  }
+  .price h3{font-size:1.25rem;font-style:italic;color:var(--muted)}
+  .amount{
+    font-family:var(--display);font-stretch:condensed;font-weight:800;
+    font-size:3rem;line-height:1;margin:14px 0 2px;
+    font-variant-numeric:tabular-nums;
+    background:linear-gradient(92deg,var(--flame),var(--blood));
+    -webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;color:transparent;
+  }
+  .amount small{font-size:1.1rem}
+  .per{color:var(--muted);font-size:.85rem}
+  .price ul{list-style:none;padding:0;margin:18px 0 0;color:var(--muted);font-size:.9rem;display:grid;gap:8px}
+  .trial-note{
+    margin-top:22px;text-align:center;color:var(--amber);
+    font-family:var(--display);font-stretch:condensed;font-weight:700;
+    text-transform:uppercase;letter-spacing:.14em;font-size:.85rem;
+  }
+
+  /* contact */
+  .contact{background:var(--coal);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .c-grid{display:grid;gap:12px;margin-top:28px}
+  @media(min-width:720px){.c-grid{grid-template-columns:1fr 1fr}}
+  .c-item{
+    border:1px solid var(--line);border-radius:6px;padding:18px;
+    background:var(--ink);
+  }
+  .c-item .lbl{
+    font-family:var(--display);font-stretch:condensed;font-weight:700;
+    text-transform:uppercase;letter-spacing:.16em;font-size:.72rem;
+    color:var(--flame);display:block;margin-bottom:6px;
+  }
+  .c-item .val{font-size:1.02rem}
+  .c-item .val.todo{color:var(--muted);font-style:italic}
+
+  footer{
+    padding:44px 0 90px;text-align:center;color:var(--muted);font-size:.85rem;
+  }
+  footer .mark{width:44px;height:44px;margin:0 auto 12px;display:block;opacity:.9}
+  footer .wordmark{font-size:1rem}
+
+  /* barre d'action fixe mobile */
+  .dock{
+    position:fixed;left:0;right:0;bottom:0;z-index:60;
+    padding:10px 16px calc(10px + env(safe-area-inset-bottom));
+    background:rgba(11,8,6,.92);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    border-top:1px solid var(--line);
+    display:flex;justify-content:center;
+  }
+  .dock .btn{width:100%;max-width:420px;text-align:center;padding:14px}
+  @media(min-width:900px){.dock{display:none}footer{padding-bottom:44px}}
+
+  /* apparitions au scroll */
+  .rv{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+  .rv.on{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){
+    .rv{opacity:1;transform:none;transition:none}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body>
+<!-- emblème tigre (symbole réutilisé) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="fur" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FF8A1E"/>
+      <stop offset="1" stop-color="#E5231B"/>
+    </linearGradient>
+    <symbol id="tiger" viewBox="0 0 200 200">
+      <!-- oreilles -->
+      <polygon points="46,44 26,10 80,25" fill="url(#fur)"/>
+      <polygon points="154,44 174,10 120,25" fill="url(#fur)"/>
+      <polygon points="50,38 38,18 68,27" fill="#0B0806"/>
+      <polygon points="150,38 162,18 132,27" fill="#0B0806"/>
+      <!-- tête -->
+      <polygon points="100,18 152,34 172,92 148,152 100,184 52,152 28,92 48,34" fill="url(#fur)"/>
+      <!-- rayure frontale centrale -->
+      <polygon points="100,28 107,56 100,84 93,56" fill="#0B0806"/>
+      <!-- moitié gauche (rayures, sourcil, œil, joues) -->
+      <g id="thalf">
+        <polygon points="74,32 85,36 76,66 66,56" fill="#0B0806"/>
+        <polygon points="55,44 64,50 58,74 49,62" fill="#0B0806"/>
+        <polygon points="52,80 90,92 88,102 54,90" fill="#0B0806"/>
+        <polygon points="58,92 87,103 86,112 61,101" fill="#FFC24B"/>
+        <polygon points="70,97 78,100 77,109 69,106" fill="#0B0806"/>
+        <polygon points="30,100 53,106 43,124 29,112" fill="#0B0806"/>
+        <polygon points="38,128 57,131 50,147 38,138" fill="#0B0806"/>
+      </g>
+      <use href="#thalf" transform="translate(200,0) scale(-1,1)"/>
+      <!-- museau -->
+      <polygon points="100,112 132,124 124,162 100,176 76,162 68,124" fill="#F5EDE3"/>
+      <polygon points="100,116 115,124 100,137 85,124" fill="#0B0806"/>
+      <polygon points="98,137 102,137 103,147 100,152 97,147" fill="#0B0806"/>
+    </symbol>
+  </defs>
+</svg>
+
+<header class="top">
+  <div class="top-in">
+    <svg class="mark" aria-hidden="true"><use href="#tiger"/></svg>
+    <div class="wordmark">Tiger <b>Sport</b></div>
+    <a class="top-cta" href="#contact">Essai gratuit</a>
+  </div>
+</header>
+
+<main>
+  <div class="hero">
+    <div class="wrap">
+      <p class="eyebrow">Salle de boxe — Algérie · تايغر سبورت</p>
+      <svg class="mark" role="img" aria-label="Emblème Tiger Sport"><use href="#tiger"/></svg>
+      <h1>Réveille<span class="l2">le tigre</span>en toi</h1>
+      <p class="ar">Boxe anglaise · Kickboxing · Tous niveaux</p>
+      <p class="pitch">Une salle, des coachs diplômés et une seule règle&nbsp;: tu progresses à chaque séance. Du premier gant jusqu'au ring.</p>
+      <div class="cta-row">
+        <a class="btn primary" href="#contact">Séance d'essai gratuite</a>
+        <a class="btn ghost" href="#planning">Voir le planning</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="ticker" aria-hidden="true">
+    <span>Ouvert 6j/7 <b>//</b> Coachs diplômés <b>//</b> Hommes · Femmes · Enfants <b>//</b> Du débutant au compétiteur <b>//</b> Ouvert 6j/7 <b>//</b> Coachs diplômés <b>//</b> Hommes · Femmes · Enfants</span>
+  </div>
+
+  <section id="disciplines">
+    <div class="wrap">
+      <div class="sec-head"><span class="claw sm"><i></i><i></i><i></i></span><h2>Disciplines</h2></div>
+      <p class="sec-sub">Chaque cours est encadré par un coach diplômé, avec un travail adapté à ton niveau et à ton objectif.</p>
+      <div class="cards">
+        <div class="card rv">
+          <span class="claw sm"><i></i><i></i><i></i></span>
+          <h3>Boxe anglaise</h3>
+          <p>Le noble art. Technique de frappe, déplacements, défense et sparring encadré. La base de tout combattant.</p>
+          <div class="chips"><span class="chip">Tous niveaux</span><span class="chip">Sparring encadré</span></div>
+        </div>
+        <div class="card rv">
+          <span class="claw sm"><i></i><i></i><i></i></span>
+          <h3>Kickboxing</h3>
+          <p>Poings et jambes. Un travail complet de percussion, de cardio et de souplesse pour un corps affûté.</p>
+          <div class="chips"><span class="chip">Tous niveaux</span><span class="chip">Cardio intense</span></div>
+        </div>
+        <div class="card rv">
+          <span class="claw sm"><i></i><i></i><i></i></span>
+          <h3>Boxe éducative — enfants</h3>
+          <p>Discipline, respect et confiance en soi. Un apprentissage ludique et sans danger, pensé pour les 7–14 ans.</p>
+          <div class="chips"><span class="chip">7–14 ans</span><span class="chip">Sans contact dur</span></div>
+        </div>
+        <div class="card rv">
+          <span class="claw sm"><i></i><i></i><i></i></span>
+          <h3>Préparation physique</h3>
+          <p>Renforcement, gainage, corde, sacs. La condition physique du boxeur, accessible même sans monter sur le ring.</p>
+          <div class="chips"><span class="chip">Remise en forme</span><span class="chip">Perte de poids</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="planning">
+    <div class="wrap">
+      <div class="sec-head"><span class="claw sm"><i></i><i></i><i></i></span><h2>Planning</h2></div>
+      <p class="sec-sub">Horaires d'entraînement de la semaine. Arrive 10 minutes avant le début du cours.</p>
+      <div class="sched">
+        <div class="day rv">
+          <span class="dn">Sam</span>
+          <div class="slot"><time>16h30–17h30</time><span>Boxe éducative <small>enfants 7–14 ans</small></span></div>
+          <div class="slot"><time>18h00–19h30</time><span>Boxe anglaise <small>tous niveaux</small></span></div>
+          <div class="slot"><time>19h30–21h00</time><span>Kickboxing <small>tous niveaux</small></span></div>
+        </div>
+        <div class="day rv">
+          <span class="dn">Dim</span>
+          <div class="slot"><time>18h00–19h30</time><span>Boxe anglaise <small>tous niveaux</small></span></div>
+          <div class="slot"><time>19h30–21h00</time><span>Préparation physique</span></div>
+        </div>
+        <div class="day rv">
+          <span class="dn">Lun</span>
+          <div class="slot"><time>16h30–17h30</time><span>Boxe éducative <small>enfants 7–14 ans</small></span></div>
+          <div class="slot"><time>18h00–19h30</time><span>Kickboxing <small>tous niveaux</small></span></div>
+          <div class="slot"><time>19h30–21h00</time><span>Boxe anglaise <small>perfectionnement</small></span></div>
+        </div>
+        <div class="day rv">
+          <span class="dn">Mar</span>
+          <div class="slot"><time>18h00–19h30</time><span>Boxe anglaise <small>tous niveaux</small></span></div>
+          <div class="slot"><time>19h30–21h00</time><span>Préparation physique</span></div>
+        </div>
+        <div class="day rv">
+          <span class="dn">Mer</span>
+          <div class="slot"><time>16h30–17h30</time><span>Boxe éducative <small>enfants 7–14 ans</small></span></div>
+          <div class="slot"><time>18h00–19h30</time><span>Kickboxing <small>tous niveaux</small></span></div>
+          <div class="slot"><time>19h30–21h00</time><span>Boxe anglaise <small>sparring encadré</small></span></div>
+        </div>
+        <div class="day rv">
+          <span class="dn">Jeu</span>
+          <div class="slot"><time>18h00–19h30</time><span>Boxe anglaise <small>tous niveaux</small></span></div>
+          <div class="slot"><time>19h30–21h00</time><span>Kickboxing <small>tous niveaux</small></span></div>
+        </div>
+        <div class="day off rv">
+          <span class="dn">Ven</span>
+          <div class="slot"><time>—</time><span>Fermé — repos du tigre</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="photos">
+    <div class="wrap">
+      <div class="sec-head"><span class="claw sm"><i></i><i></i><i></i></span><h2>La salle</h2></div>
+      <p class="sec-sub">Les photos de la salle, des coachs et des entraînements arrivent bientôt.</p>
+      <div class="gallery">
+        <div class="ph rv"><em>Photo — bientôt</em></div>
+        <div class="ph rv"><em>Photo — bientôt</em></div>
+        <div class="ph rv"><em>Photo — bientôt</em></div>
+        <div class="ph rv"><em>Photo — bientôt</em></div>
+        <div class="ph rv"><em>Photo — bientôt</em></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="tarifs">
+    <div class="wrap">
+      <div class="sec-head"><span class="claw sm"><i></i><i></i><i></i></span><h2>Tarifs</h2></div>
+      <p class="sec-sub">Sans engagement. L'abonnement donne accès à tous les cours de ta catégorie.</p>
+      <div class="prices">
+        <div class="price rv">
+          <h3>Mensuel</h3>
+          <div class="amount">2 500 <small>DA</small></div>
+          <p class="per">par mois</p>
+          <ul>
+            <li>Tous les cours adultes</li>
+            <li>Accès 6j/7</li>
+          </ul>
+        </div>
+        <div class="price hot rv">
+          <span class="tag">Le plus choisi</span>
+          <h3>Trimestriel</h3>
+          <div class="amount">6 500 <small>DA</small></div>
+          <p class="per">pour 3 mois — économise 1 000 DA</p>
+          <ul>
+            <li>Tous les cours adultes</li>
+            <li>Accès 6j/7</li>
+            <li>Suivi de progression</li>
+          </ul>
+        </div>
+        <div class="price rv">
+          <h3>Enfants</h3>
+          <div class="amount">1 800 <small>DA</small></div>
+          <p class="per">par mois — boxe éducative</p>
+          <ul>
+            <li>3 cours par semaine</li>
+            <li>Encadrement diplômé</li>
+          </ul>
+        </div>
+      </div>
+      <p class="trial-note">Première séance d'essai gratuite — viens juste avec une tenue de sport</p>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <div class="wrap">
+      <div class="sec-head"><span class="claw sm"><i></i><i></i><i></i></span><h2>Nous trouver</h2></div>
+      <p class="sec-sub">Passe nous voir pendant les heures d'ouverture, ou écris-nous pour réserver ta séance d'essai gratuite.</p>
+      <div class="c-grid">
+        <div class="c-item rv">
+          <span class="lbl">Adresse</span>
+          <p class="val todo">À compléter — Algérie</p>
+        </div>
+        <div class="c-item rv">
+          <span class="lbl">Téléphone / WhatsApp</span>
+          <p class="val todo">À compléter</p>
+        </div>
+        <div class="c-item rv">
+          <span class="lbl">Instagram</span>
+          <p class="val todo">À compléter</p>
+        </div>
+        <div class="c-item rv">
+          <span class="lbl">Horaires d'ouverture</span>
+          <p class="val">Samedi → Jeudi · 16h00 – 21h30<br>Vendredi · fermé</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <svg class="mark" aria-hidden="true"><use href="#tiger"/></svg>
+  <div class="wordmark">Tiger <b>Sport</b></div>
+  <p>Salle de boxe — Algérie · تايغر سبورت</p>
+</footer>
+
+<div class="dock">
+  <a class="btn primary" href="#contact">Réserver ma séance d'essai gratuite</a>
+</div>
+
+<script>
+  const io=new IntersectionObserver(es=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}})
+  },{threshold:.12});
+  document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+</script>
+
+</body>
+</html>
