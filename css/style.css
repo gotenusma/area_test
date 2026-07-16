@@ -238,13 +238,12 @@ section { scroll-margin-top: 76px; }
 
 .hero__actions { display: flex; flex-wrap: wrap; gap: 1rem; }
 
-.hero__figure {
-  position: relative;
-  margin-right: 1.4rem;
-}
+.hero__figure { margin-right: 1.4rem; }
+
+.hero__frame { position: relative; }
 
 /* Bande bleue verticale, écho de la maquette du menu */
-.hero__figure::after {
+.hero__frame::after {
   content: "";
   position: absolute;
   top: 1.4rem;
@@ -271,6 +270,9 @@ section { scroll-margin-top: 76px; }
   opacity: 0.65;
   margin-top: 0.7rem;
 }
+
+/* la légende s'écarte de la bande bleue qui dépasse sous l'image */
+.hero__figure figcaption { margin-top: 2.2rem; }
 
 /* ---------- La Maison ---------- */
 
