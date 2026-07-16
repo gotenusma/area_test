@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YAMAS — Restaurant Grec · Nîmes</title>
+  <meta name="description" content="YAMAS, restaurant grec à Nîmes, rue Fresque. Mezzes, grillades et produits locaux au cœur de l'écusson.">
+  <link rel="preload" href="assets/fonts/poiretone-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/jost-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🫒</text></svg>">
+</head>
+<body>
+
+  <!-- ===== Navigation ===== -->
+  <header class="nav" id="top">
+    <div class="nav__inner">
+      <a href="#top" class="nav__brand">
+        <span class="nav__brand-sur">Greek Restaurant</span>
+        <span class="nav__brand-name">Yamas</span>
+      </a>
+      <nav class="nav__links">
+        <a href="#maison">La Maison</a>
+        <a href="#carte">La Carte</a>
+        <a href="#galerie">Galerie</a>
+        <a href="#contact" class="nav__cta">Réserver</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== Hero ===== -->
+  <section class="hero">
+    <div class="hero__content">
+      <p class="hero__kicker">Nîmes · Rue Fresque</p>
+      <h1 class="hero__title">Yamas</h1>
+      <p class="hero__sub">Cuisine grecque, produits locaux<br>&amp; convivialité méditerranéenne</p>
+      <div class="key-divider" aria-hidden="true"></div>
+      <div class="hero__actions">
+        <a class="btn btn--solid" href="#carte">Découvrir la carte</a>
+        <a class="btn btn--ghost" href="#contact">Réserver une table</a>
+      </div>
+    </div>
+    <figure class="hero__figure">
+      <img src="assets/facade.jpg" alt="La terrasse de Yamas, rue Fresque à Nîmes">
+      <figcaption>La terrasse, au cœur de l'écusson nîmois</figcaption>
+    </figure>
+  </section>
+
+  <!-- ===== La Maison ===== -->
+  <section class="maison" id="maison">
+    <div class="maison__inner">
+      <div class="maison__text">
+        <p class="section-kicker">Καλώς ήρθατε — Bienvenue</p>
+        <h2 class="section-title">La Maison</h2>
+        <p>
+          Nichée dans une ruelle de pierre au cœur de Nîmes, la table de Yamas célèbre
+          la Grèce des tavernes&nbsp;: des mezzes à partager, des grillades généreuses
+          et des vins choisis, dans un décor simple et chaleureux.
+        </p>
+        <p>
+          Ici, tout est fait maison, au rythme des saisons et des producteurs de la
+          région. On lève son verre, on partage, on prend le temps — <em>Yamas&nbsp;!</em>
+        </p>
+        <div class="olive-branch" aria-hidden="true">
+          <svg viewBox="0 0 120 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+            <path d="M6 34 C 36 22, 76 14, 114 6"/>
+            <path d="M28 27 C 26 20, 30 14, 37 12 C 38 19, 34 25, 28 27 Z"/>
+            <path d="M52 21 C 50 14, 55 8, 62 7 C 62 14, 58 20, 52 21 Z"/>
+            <path d="M78 15 C 77 9, 82 4, 89 3 C 89 9, 85 14, 78 15 Z"/>
+            <ellipse cx="40" cy="29" rx="4.2" ry="5.2"/>
+            <ellipse cx="68" cy="21" rx="4.2" ry="5.2"/>
+          </svg>
+        </div>
+      </div>
+      <figure class="maison__figure">
+        <img src="assets/melitzanosalata.jpg" alt="Melitzanosalata, caviar d'aubergine aux pétales de fleurs">
+        <figcaption>Melitzanosalata — aubergines fumées, fleurs du jardin</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ===== La Carte ===== -->
+  <section class="carte" id="carte">
+    <div class="carte__inner">
+      <header class="carte__header">
+        <p class="section-kicker section-kicker--light">Fait maison, tout simplement</p>
+        <h2 class="section-title section-title--light">La Carte</h2>
+        <div class="key-divider key-divider--cream" aria-hidden="true"></div>
+      </header>
+
+      <div class="carte__columns">
+        <!-- Formules -->
+        <div class="carte__block">
+          <h3 class="carte__block-title">Nos Menus</h3>
+          <ul class="menu-list">
+            <li class="menu-item">
+              <span class="menu-item__name">Plat <small>(Faux filet +3€)</small></span>
+              <span class="menu-item__dots"></span>
+              <span class="menu-item__price">20€</span>
+            </li>
+            <li class="menu-item">
+              <span class="menu-item__name">Plat – Dessert</span>
+              <span class="menu-item__dots"></span>
+              <span class="menu-item__price">27€</span>
+            </li>
+            <li class="menu-item">
+              <span class="menu-item__name">Entrée – Plat</span>
+              <span class="menu-item__dots"></span>
+              <span class="menu-item__price">29€</span>
+            </li>
+            <li class="menu-item">
+              <span class="menu-item__name">Entrée – Plat – Dessert</span>
+              <span class="menu-item__dots"></span>
+              <span class="menu-item__price">35€</span>
+            </li>
+            <li class="menu-item">
+              <span class="menu-item__name">Entrée – Plat – Fromage – Dessert</span>
+              <span class="menu-item__dots"></span>
+              <span class="menu-item__price">39€</span>
+            </li>
+          </ul>
+
+          <aside class="producteurs">
+            <h4>Mise en avant de nos producteurs locaux</h4>
+            <p>
+              Élevage de la Coste, Mauressargues · Chez Paulette, Halles de Nîmes ·
+              Crémerie Claude &amp; Nadine, Halles de Nîmes · Hillarion Bezert, Gigondas ·
+              Domaine de Rapatel, Caissargues · Roudil Jouffret, Tavel ·
+              Boulangerie Alle, Nîmes · Château la Gardine, Châteauneuf-du-Pape
+            </p>
+          </aside>
+        </div>
+
+        <!-- Mezzes -->
+        <div class="carte__block">
+          <h3 class="carte__block-title">Les Mezzes</h3>
+          <ul class="menu-list">
+            <li class="menu-item">
+              <div class="menu-item__row">
+                <span class="menu-item__name">Mini Pita</span>
+                <span class="menu-item__dots"></span>
+                <span class="menu-item__price">8€</span>
+              </div>
+              <p class="menu-item__desc">Pain pita garni de poulet mariné, tomates, oignon, tzatzíki</p>
+            </li>
+            <li class="menu-item">
+              <div class="menu-item__row">
+                <span class="menu-item__name">Tzatzíki <span class="gr">(Τζατζίκι)</span></span>
+                <span class="menu-item__dots"></span>
+                <span class="menu-item__price">5€</span>
+              </div>
+              <p class="menu-item__desc">Yaourt grec, concombre, ail, pain pita</p>
+            </li>
+            <li class="menu-item">
+              <div class="menu-item__row">
+                <span class="menu-item__name">Sardéles Marinátes <span class="gr">(Σαρδέλες μαρινάτες)</span></span>
+                <span class="menu-item__dots"></span>
+                <span class="menu-item__price">9€</span>
+              </div>
+              <p class="menu-item__desc">Sardines de Méditerranée marinées au citron et aux herbes, pain aux céréales grillé</p>
+            </li>
+            <li class="menu-item">
+              <div class="menu-item__row">
+                <span class="menu-item__name">Melitzanes me Feta <span class="gr">(Μελιτζάνες με φέτα)</span></span>
+                <span class="menu-item__dots"></span>
+                <span class="menu-item__price">8€</span>
+              </div>
+              <p class="menu-item__desc">Aubergines grillées, feta, huile d'olive, herbes fraîches</p>
+            </li>
+            <li class="menu-item">
+              <div class="menu-item__row">
+                <span class="menu-item__name">Patátes Tiganites <span class="gr">(Πατάτες τηγανητές)</span></span>
+                <span class="menu-item__dots"></span>
+                <span class="menu-item__price">5€</span>
+              </div>
+              <p class="menu-item__desc">Frites fraîches</p>
+            </li>
+            <li class="menu-item">
+              <div class="menu-item__row">
+                <span class="menu-item__name">Dolmades <span class="gr">(Ντολμάδες)</span></span>
+                <span class="menu-item__dots"></span>
+                <span class="menu-item__price">7€</span>
+              </div>
+              <p class="menu-item__desc">Feuilles de vigne farcies au riz, herbes et pignons</p>
+            </li>
+            <li class="menu-item">
+              <div class="menu-item__row">
+                <span class="menu-item__name">Houmous <span class="gr">(Χούμους)</span></span>
+                <span class="menu-item__dots"></span>
+                <span class="menu-item__price">6€</span>
+              </div>
+              <p class="menu-item__desc">Pois chiches, tahini, citron, huile d'olive</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Plat signature (esprit affiche Horiatiki) ===== -->
+  <section class="signature">
+    <figure class="signature__figure">
+      <img src="assets/horiatiki.jpg" alt="Horiatiki, la salade grecque de Yamas servie sur assiette bleue">
+    </figure>
+    <div class="signature__content">
+      <p class="signature__kicker">Le plat de l'été</p>
+      <h2 class="signature__title">Horiatiki</h2>
+      <p class="signature__sub">Votre salade grecque pour l'été</p>
+      <p class="signature__desc">
+        Tomates de pays, concombre, olives de Kalamata, oignon rouge et feta,
+        simplement relevés d'origan et d'une belle huile d'olive.
+      </p>
+      <a class="btn btn--cream" href="#contact">Réserver une table</a>
+    </div>
+  </section>
+
+  <!-- ===== Galerie ===== -->
+  <section class="galerie" id="galerie">
+    <div class="galerie__inner">
+      <p class="section-kicker">À la table de Yamas</p>
+      <h2 class="section-title">Galerie</h2>
+      <div class="key-divider" aria-hidden="true"></div>
+      <div class="galerie__grid">
+        <figure>
+          <img src="assets/gambas.jpg" alt="Gambas grillées à l'huile d'olive et au citron vert">
+          <figcaption>Gambas grillées, citron vert &amp; herbes</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/melitzanosalata.jpg" alt="Melitzanosalata servie en assiette à motifs bleus">
+          <figcaption>Melitzanosalata, pétales de fleurs</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/facade.jpg" alt="Terrasse du restaurant Yamas dans la rue Fresque">
+          <figcaption>La rue Fresque, à l'heure du service</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Contact ===== -->
+  <section class="contact" id="contact">
+    <div class="contact__inner">
+      <p class="section-kicker section-kicker--light">Στην υγειά μας — À la nôtre</p>
+      <h2 class="section-title section-title--light">Nous Trouver</h2>
+      <div class="key-divider key-divider--cream" aria-hidden="true"></div>
+      <div class="contact__grid">
+        <div class="contact__card">
+          <h3>Adresse</h3>
+          <p>15 rue Fresque<br>30000 Nîmes</p>
+        </div>
+        <div class="contact__card">
+          <h3>Horaires</h3>
+          <p>Mardi – Samedi<br>12h00 – 14h00 · 19h00 – 22h30</p>
+        </div>
+        <div class="contact__card">
+          <h3>Réservation</h3>
+          <p><a href="tel:+33400000000">04 00 00 00 00</a><br><a href="mailto:contact@yamas-nimes.fr">contact@yamas-nimes.fr</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p class="footer__brand">Yamas</p>
+    <p class="footer__tag">Greek Restaurant · Nîmes, rue Fresque</p>
+    <p class="footer__legal">© 2026 Yamas — Tous droits réservés</p>
+  </footer>
+
+</body>
+</html>
