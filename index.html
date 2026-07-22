@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Walid En Convoi — Convoyage automobile Allemagne ⇄ France</title>
+<meta name="description" content="Walid En Convoi : récupération et convoyage de véhicules entre l'Allemagne et la France. Rapide, sécurisé, suivi en temps réel.">
+<link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- ICON SPRITE -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <g id="i-defs" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <symbol id="i-car" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13l1.6-4.8A2 2 0 0 1 6.5 7h11a2 2 0 0 1 1.9 1.2L21 13v5a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-1H6v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/><circle cx="7" cy="17" r="1.4"/><circle cx="17" cy="17" r="1.4"/><path d="M3 13h18"/></symbol>
+    <symbol id="i-truck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="8" width="12" height="9"/><path d="M14 11h4l4 3.2V17h-8z"/><circle cx="6.5" cy="18.5" r="1.6"/><circle cx="17.5" cy="18.5" r="1.6"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h8l5 5v15H6z"/><path d="M14 2v5h5"/><line x1="9" y1="12" x2="16" y2="12"/><line x1="9" y1="16" x2="16" y2="16"/></symbol>
+    <symbol id="i-radar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 3.2v6.3c0 5-3.4 8.3-8 10.3-4.6-2-8-5.3-8-10.3V5.2z"/><path d="M8.5 12l2.3 2.3L16 9.5"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></symbol>
+    <symbol id="i-message" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18v13H8l-5 4z"/></symbol>
+    <symbol id="i-key" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15" r="4.2"/><path d="M11 12l9-9M17 6l2 2M14 9l2 2"/></symbol>
+    <symbol id="i-route" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.4"/><circle cx="18" cy="18" r="2.4"/><path d="M6 8.4V13a4 4 0 0 0 4 4h4" stroke-dasharray="2 2"/></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7v9H4z"/><path d="M10 20v-6h4v6"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15M14 6l7 6-7 6"/></symbol>
+    <symbol id="i-quote" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M4 9c0-3 2-5 5-5v2.4c-1.6 0-2.6 1-2.6 2.6H9v6H4zM14 9c0-3 2-5 5-5v2.4c-1.6 0-2.6 1-2.6 2.6H19v6h-5z"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6"/></symbol>
+    </g>
+  </defs>
+</svg>
+
+<div class="bg-fx" aria-hidden="true">
+  <span class="blob blob-a"></span>
+  <span class="blob blob-b"></span>
+  <span class="grain"></span>
+</div>
+
+<header class="site-header" id="site-header">
+  <div class="container header-inner">
+    <a href="#top" class="logo">
+      <span class="logo-mark">W</span>
+      <span class="logo-text">WALID<span class="accent">EN CONVOI</span></span>
+    </a>
+
+    <nav class="nav" id="nav">
+      <a href="#services" class="nav-link">Services</a>
+      <a href="#comment" class="nav-link">Processus</a>
+      <a href="#trajet" class="nav-link">Trajet</a>
+      <a href="#avis" class="nav-link">Avis</a>
+      <a href="#contact" class="nav-link">Contact</a>
+    </nav>
+
+    <a href="#contact" class="btn btn-primary btn-sm nav-cta"><span>Devis gratuit</span></a>
+
+    <button class="burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero" id="hero-spot">
+    <div class="container hero-inner">
+      <p class="eyebrow reveal"><span class="flag-tag">DE</span><svg class="i-sm"><use href="#i-arrow"/></svg><span class="flag-tag alt">FR</span> Convoyage automobile</p>
+      <h1 class="reveal">
+        Votre voiture est en <span class="accent">Allemagne</span>.<br>
+        Nous vous la ramenons <span class="accent">en France</span>.
+      </h1>
+      <p class="hero-sub reveal">
+        Récupération, convoyage sécurisé et livraison de véhicules entre l'Allemagne et la France.
+        Suivi en temps réel, chauffeur assuré, ponctualité garantie.
+      </p>
+
+      <div class="hero-actions reveal">
+        <a href="#contact" class="btn btn-primary"><span>Demander un devis</span></a>
+        <a href="#comment" class="btn btn-ghost"><span>Comment ça marche</span></a>
+      </div>
+
+      <div class="hero-badges reveal">
+        <div class="badge"><svg class="i-xs accent"><use href="#i-shield"/></svg> Assuré &amp; sécurisé</div>
+        <div class="badge"><svg class="i-xs accent"><use href="#i-radar"/></svg> Suivi temps réel</div>
+        <div class="badge"><svg class="i-xs accent"><use href="#i-clock"/></svg> Ponctuel</div>
+      </div>
+    </div>
+
+    <div class="hero-map reveal" aria-hidden="true">
+      <svg class="route-svg" viewBox="0 0 700 160" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <linearGradient id="routeGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#16a35b"/>
+            <stop offset="1" stop-color="#22e07f"/>
+          </linearGradient>
+        </defs>
+        <path id="route-path" d="M20,130 C 150,20 280,150 380,80 S 560,10 680,60" fill="none" stroke="url(#routeGrad)" stroke-width="2" stroke-dasharray="1 10" stroke-linecap="round"/>
+        <circle cx="20" cy="130" r="5" fill="#22e07f"/>
+        <circle cx="680" cy="60" r="5" fill="#22e07f"/>
+        <g class="route-mover-g">
+          <circle r="15" fill="url(#routeGrad)"/>
+          <use href="#i-car" x="-9" y="-9" width="18" height="18" color="#04140b"/>
+          <animateMotion dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.5;1" keySplines="0.4 0 0.2 1;0.4 0 0.2 1" keyPoints="0;1;0" rotate="0">
+            <mpath href="#route-path"/>
+          </animateMotion>
+        </g>
+      </svg>
+      <span class="route-city start">Munich</span>
+      <span class="route-city end">Paris</span>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>Munich</span><span class="sep">•</span><span>Stuttgart</span><span class="sep">•</span><span>Francfort</span><span class="sep">•</span><span>Cologne</span><span class="sep">•</span><span>Berlin</span><span class="sep accent">→</span><span>Paris</span><span class="sep">•</span><span>Lyon</span><span class="sep">•</span><span>Marseille</span><span class="sep">•</span><span>Lille</span><span class="sep">•</span><span>Nice</span><span class="sep">•</span>
+      <span>Munich</span><span class="sep">•</span><span>Stuttgart</span><span class="sep">•</span><span>Francfort</span><span class="sep">•</span><span>Cologne</span><span class="sep">•</span><span>Berlin</span><span class="sep accent">→</span><span>Paris</span><span class="sep">•</span><span>Lyon</span><span class="sep">•</span><span>Marseille</span><span class="sep">•</span><span>Lille</span><span class="sep">•</span><span>Nice</span><span class="sep">•</span>
+    </div>
+  </div>
+
+  <!-- STATS BENTO -->
+  <section class="stats">
+    <div class="container stats-bento">
+      <div class="stat stat-big reveal">
+        <span class="stat-num" data-count="500">0</span><span class="accent">+</span>
+        <span class="stat-label">véhicules convoyés entre l'Allemagne et la France</span>
+      </div>
+      <div class="stat reveal">
+        <span class="stat-num" data-count="4">0</span><span class="accent">ans</span>
+        <span class="stat-label">d'expérience</span>
+      </div>
+      <div class="stat reveal">
+        <span class="stat-num" data-count="100">0</span><span class="accent">%</span>
+        <span class="stat-label">clients satisfaits</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES BENTO -->
+  <section id="services" class="section">
+    <div class="container">
+      <p class="section-tag reveal">Services</p>
+      <h2 class="section-title reveal">Un convoyage pensé pour votre tranquillité</h2>
+
+      <div class="bento-grid">
+        <article class="card card-feature reveal">
+          <div class="card-icon"><svg class="i-md"><use href="#i-car"/></svg></div>
+          <h3>Convoyage particulier</h3>
+          <p>Achat d'un véhicule en Allemagne ? Il est récupéré et livré directement chez vous, en France, sans que vous ayez à vous déplacer.</p>
+          <span class="card-tag">Le plus demandé</span>
+        </article>
+
+        <article class="card reveal">
+          <div class="card-icon"><svg class="i-md"><use href="#i-truck"/></svg></div>
+          <h3>Convoyage professionnel</h3>
+          <p>Garages, concessions et flottes : plusieurs véhicules, un planning sur mesure.</p>
+        </article>
+
+        <article class="card reveal">
+          <div class="card-icon"><svg class="i-md"><use href="#i-file"/></svg></div>
+          <h3>Formalités &amp; papiers</h3>
+          <p>Accompagnement sur les documents de transit et l'immatriculation en France.</p>
+        </article>
+
+        <article class="card reveal">
+          <div class="card-icon"><svg class="i-md"><use href="#i-radar"/></svg></div>
+          <h3>Suivi en temps réel</h3>
+          <p>Informé à chaque étape : récupération, route, arrivée. Aucune mauvaise surprise.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMMENT CA MARCHE -->
+  <section id="comment" class="section section-alt">
+    <div class="container">
+      <p class="section-tag reveal">Processus</p>
+      <h2 class="section-title reveal">Comment ça marche</h2>
+
+      <div class="timeline">
+        <div class="timeline-line" aria-hidden="true"></div>
+
+        <div class="tl-step reveal">
+          <div class="tl-node"><svg class="i-sm"><use href="#i-message"/></svg></div>
+          <div class="tl-content">
+            <span class="step-num">01</span>
+            <h3>Contact &amp; devis</h3>
+            <p>Vous m'envoyez les infos du véhicule et des adresses. Devis gratuit sous 24h.</p>
+          </div>
+        </div>
+
+        <div class="tl-step reveal">
+          <div class="tl-node"><svg class="i-sm"><use href="#i-key"/></svg></div>
+          <div class="tl-content">
+            <span class="step-num">02</span>
+            <h3>Récupération en Allemagne</h3>
+            <p>Le véhicule est inspecté et pris en charge à l'adresse convenue, en toute sécurité.</p>
+          </div>
+        </div>
+
+        <div class="tl-step reveal">
+          <div class="tl-node"><svg class="i-sm"><use href="#i-route"/></svg></div>
+          <div class="tl-content">
+            <span class="step-num">03</span>
+            <h3>Convoyage sécurisé</h3>
+            <p>Trajet direct vers la France avec suivi, dans le respect des délais annoncés.</p>
+          </div>
+        </div>
+
+        <div class="tl-step reveal">
+          <div class="tl-node"><svg class="i-sm"><use href="#i-home"/></svg></div>
+          <div class="tl-content">
+            <span class="step-num">04</span>
+            <h3>Livraison en France</h3>
+            <p>Remise du véhicule à l'adresse indiquée, avec état des lieux et documents.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRAJET -->
+  <section id="trajet" class="section">
+    <div class="container trajet-grid">
+      <div class="reveal">
+        <p class="section-tag">Zone desservie</p>
+        <h2 class="section-title">De l'Allemagne à la France, sans détour</h2>
+        <p class="trajet-text">
+          Récupération partout en Allemagne (Munich, Francfort, Stuttgart, Cologne, Berlin...)
+          et livraison partout en France, à l'adresse de votre choix.
+        </p>
+        <ul class="trajet-list">
+          <li><span class="flag-tag">DE</span> Récupération : villes &amp; concessions allemandes</li>
+          <li><span class="flag-tag alt">FR</span> Livraison : à domicile, partout en France</li>
+          <li><svg class="i-xs accent"><use href="#i-route"/></svg> Trajet direct, sans transbordement</li>
+        </ul>
+      </div>
+
+      <div class="reveal route-card">
+        <div class="route-card-inner">
+          <div class="route-point">
+            <span class="pin flag-tag">DE</span>
+            <div><strong>Allemagne</strong><small>Point de départ</small></div>
+          </div>
+          <div class="route-dash"></div>
+          <div class="route-point">
+            <span class="pin flag-tag alt">FR</span>
+            <div><strong>France</strong><small>Point d'arrivée</small></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AVIS -->
+  <section id="avis" class="section section-alt">
+    <div class="container">
+      <p class="section-tag reveal">Avis clients</p>
+      <h2 class="section-title reveal">Ils lui ont fait confiance</h2>
+
+      <div class="bento-grid">
+        <article class="testi reveal">
+          <svg class="i-md quote-icon"><use href="#i-quote"/></svg>
+          <p>Voiture récupérée en Allemagne et livrée chez moi en France, sans stress et à l'heure annoncée.</p>
+          <div class="testi-author">Client particulier</div>
+        </article>
+        <article class="testi reveal">
+          <svg class="i-md quote-icon"><use href="#i-quote"/></svg>
+          <p>Suivi clair du début à la fin, communication au top. Je recommande pour un import auto.</p>
+          <div class="testi-author">Client particulier</div>
+        </article>
+        <article class="testi reveal">
+          <svg class="i-md quote-icon"><use href="#i-quote"/></svg>
+          <p>Sérieux et ponctuel, exactement ce qu'il faut pour un convoyage à l'international.</p>
+          <div class="testi-author">Client professionnel</div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="section contact-section">
+    <div class="container contact-grid">
+      <div class="reveal">
+        <p class="section-tag">Contact</p>
+        <h2 class="section-title">Demandez votre devis gratuit</h2>
+        <p class="trajet-text">
+          Renseignez les infos de votre véhicule, je reviens vers vous rapidement avec un devis personnalisé.
+        </p>
+
+        <div class="contact-infos">
+          <div class="info-item"><svg class="i-xs accent"><use href="#i-message"/></svg> +33 6 00 00 00 00</div>
+          <div class="info-item"><svg class="i-xs accent"><use href="#i-file"/></svg> contact@walidenconvoi.fr</div>
+          <div class="info-item"><svg class="i-xs accent"><use href="#i-route"/></svg> Allemagne ⇄ France</div>
+        </div>
+      </div>
+
+      <form class="contact-form reveal" id="contact-form">
+        <div class="form-row">
+          <input type="text" name="nom" placeholder="Nom complet" required>
+          <input type="tel" name="telephone" placeholder="Téléphone" required>
+        </div>
+        <input type="email" name="email" placeholder="Email" required>
+        <div class="form-row">
+          <input type="text" name="depart" placeholder="Ville de départ (Allemagne)" required>
+          <input type="text" name="arrivee" placeholder="Ville d'arrivée (France)" required>
+        </div>
+        <input type="text" name="vehicule" placeholder="Modèle du véhicule">
+        <textarea name="message" placeholder="Message (optionnel)" rows="4"></textarea>
+        <button type="submit" class="btn btn-primary btn-block"><span>Envoyer la demande</span></button>
+        <p class="form-note" id="form-note"></p>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="logo footer-logo">
+      <span class="logo-mark">W</span>
+      <span class="logo-text">WALID<span class="accent">EN CONVOI</span></span>
+    </div>
+    <p class="footer-copy">© <span id="year"></span> Walid En Convoi — Convoyage automobile Allemagne ⇄ France.</p>
+  </div>
+</footer>
+
+<a href="#contact" class="floating-cta" aria-label="Demander un devis"><svg class="i-md"><use href="#i-message"/></svg></a>
+<button class="to-top" id="to-top" aria-label="Retour en haut"><svg class="i-sm" style="transform:rotate(-90deg)"><use href="#i-arrow"/></svg></button>
+
+<script src="assets/js/script.js"></script>
+</body>
+</html>
