@@ -95,6 +95,29 @@ Framer Motion est déjà présent : le paquet `motion` est le même projet
 (`motiondivision/motion`) sous son nom actuel, en version 12.43.0 — les
 animations l’importent via `motion/react`.
 
+### Brancher 21st.dev (à faire en local)
+
+Le MCP 21st.dev demande une clé API personnelle, à générer sur
+`21st.dev/magic/console` → onglet API → *Create API key* (elle commence par
+`an_sk_` et ne s’affiche qu’une fois). Elle reste sur votre machine : `--scope
+user` l’écrit dans votre configuration personnelle. **Ne la committez jamais**
+dans ce dépôt, ni dans un `.mcp.json` de projet.
+
+```bash
+# Recommandé aujourd'hui par 21st.dev
+npx @21st-dev/cli@latest init
+
+# Ancienne commande — fonctionne encore, via un paquet de compatibilité
+claude mcp add magic --scope user --env API_KEY="VOTRE_CLE_API" -- npx -y @21st-dev/magic@latest
+```
+
+`@21st-dev/magic` est désormais un proxy de compatibilité conservé pour les
+anciennes configurations ; le paquet lui-même renvoie vers `@21st-dev/cli`.
+
+Ce branchement ne peut pas se faire depuis une session Claude Code distante : la
+politique réseau y refuse `21st.dev` (403 sur le tunnel), donc le serveur MCP
+démarrerait sans pouvoir joindre son API.
+
 ## Notes
 
 Les textes générés sont écrits pour tenir la maquette et donner le bon rythme, pas
