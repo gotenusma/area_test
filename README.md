@@ -74,6 +74,27 @@ Les primitives de `src/components/ui/` suivent les conventions du registre
 depuis le registre, l’accès réseau à 21st.dev étant bloqué dans l’environnement de
 développement utilisé ; un composant tiré du registre s’y intègre sans adaptation.
 
+## Skills installés
+
+`.claude/skills/` contient le paquet [UI/UX Pro Max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill)
+v2.11.0 (MIT), installé avec `npx ui-ux-pro-max-cli init --ai claude`. Sept skills
+en font partie : `ui-ux-pro-max`, `ui-styling`, `design`, `design-system`,
+`brand`, `banner-design` et `slides`. Ils s’activent d’eux-mêmes sur les tâches
+de design ; les bases de données sont locales et interrogeables :
+
+```bash
+python3 .claude/skills/ui-ux-pro-max/scripts/search.py "<requête>" --domain style
+python3 .claude/skills/ui-ux-pro-max/scripts/search.py "<requête>" --design-system -p "Nom"
+```
+
+Les chemins des commandes documentées ont été réécrits en `.claude/skills/…`
+(l’installateur les écrit relatifs à `.claude/`, ce qui échoue depuis la racine du
+projet). Une réinstallation ou une mise à jour du paquet écrase cette correction.
+
+Framer Motion est déjà présent : le paquet `motion` est le même projet
+(`motiondivision/motion`) sous son nom actuel, en version 12.43.0 — les
+animations l’importent via `motion/react`.
+
 ## Notes
 
 Les textes générés sont écrits pour tenir la maquette et donner le bon rythme, pas
