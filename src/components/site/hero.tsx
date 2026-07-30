@@ -84,7 +84,8 @@ export function Hero({
                   if (event.key === 'Enter' && (event.metaKey || event.ctrlKey)) onOpenStudio()
                 }}
                 placeholder="Un site pour…"
-                className="min-h-[92px] pr-12 text-[0.9375rem]"
+                /* A full brief needs more lines before the text wraps on a phone. */
+                className="min-h-[132px] pr-12 text-[0.9375rem] sm:min-h-[92px]"
               />
               {typing ? (
                 <span
