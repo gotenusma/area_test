@@ -3,18 +3,18 @@ import { Reveal } from '@/components/ui/reveal'
 /** A real sequence — the numbering carries the order, it isn't decoration. */
 const STEPS = [
   {
-    title: 'Écrire le brief',
-    body: 'Une phrase suffit : le métier, le nom, le ton. Fabrique y lit le modèle à utiliser, la palette qui va avec et la typographie la plus juste.',
-    detail: 'Lecture du brief, en local',
+    title: 'Décrire l’idée',
+    body: 'Écrivez-la comme vous l’expliqueriez à quelqu’un : le métier, le nom, le ton. Fabrique en déduit le modèle, puis choisit la palette et l’association de polices en interrogeant les bases UI/UX Pro Max.',
+    detail: '192 palettes, 74 associations',
   },
   {
-    title: 'Ajuster dans le Studio',
-    body: 'Changez de modèle, de palette, de densité, retirez les sections inutiles. L’aperçu se recompose à chaque geste, à la vraie largeur de l’appareil choisi.',
-    detail: 'Aperçu immédiat',
+    title: 'Ajouter vos fichiers',
+    body: 'Un logo, quelques photos, un texte de présentation — ou rien du tout, l’étape se saute. Les images sont réduites puis intégrées au document, elles ne transitent par aucun serveur.',
+    detail: 'Facultatif',
   },
   {
-    title: 'Exporter le fichier',
-    body: 'Vous récupérez un HTML autonome, lisible et indenté. Rien à compiler, rien à créditer, aucune trace de Fabrique dans votre code.',
+    title: 'Ajuster et exporter',
+    body: 'Changez la police, la couleur principale, les sections, l’arrondi, le thème. L’aperçu se recompose à chaque geste, puis vous récupérez un HTML lisible et indenté.',
     detail: 'site.html — un seul fichier',
   },
 ]

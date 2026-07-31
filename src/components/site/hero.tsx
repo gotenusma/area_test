@@ -9,7 +9,8 @@ import { cn } from '@/lib/cn'
 import { specFromPrompt } from '@/lib/content'
 import { renderSite, weightOf } from '@/lib/generator'
 import { slugify } from '@/lib/slug'
-import { templateOf, paletteOf } from '@/lib/spec'
+import { templateOf } from '@/lib/spec'
+import { paletteById } from '@/lib/uipm'
 import { useIntroTyping } from '@/lib/use-typewriter'
 
 export function Hero({
@@ -35,7 +36,7 @@ export function Hero({
 
   const readout = [
     { label: 'modèle', value: templateOf(spec.template).label },
-    { label: 'palette', value: paletteOf(spec.palette).label },
+    { label: 'palette', value: paletteById(spec.paletteId).label },
     { label: 'poids', value: weightOf(html) },
   ]
 

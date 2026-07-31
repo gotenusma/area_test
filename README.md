@@ -15,16 +15,23 @@ npm run preview  # servir le build
 npm run lint
 ```
 
-## Les deux vues
+## Le parcours
 
-| Route      | Contenu                                                                               |
-| ---------- | ------------------------------------------------------------------------------------- |
-| `#/`       | Page d’accueil : aperçu en direct dans le héros, galerie des modèles, système, tarifs. |
-| `#/studio` | Studio : brief, modèle, palette, typographie, sections, arrondi, densité, thème.       |
+| Route      | Contenu                                                                     |
+| ---------- | --------------------------------------------------------------------------- |
+| `#/`       | Page d’accueil : aperçu en direct, galerie des modèles, système, tarifs.     |
+| `#/studio` | Studio en trois étapes, l’aperçu restant visible du début à la fin.          |
 
-Le brief saisi sur l’accueil suit l’utilisateur dans le Studio. Dans le Studio,
-`Aperçu` affiche le rendu à la largeur de l’appareil choisi, `Code` montre le HTML
-produit, et `Télécharger` enregistre le fichier.
+1. **Décrire l’idée** — un brief en texte libre. Le modèle vient de règles maison ;
+   la palette et l’association de polices sont choisies en interrogeant les bases
+   UI/UX Pro Max. Un encadré montre ce qui a été compris.
+2. **Ajouter des fichiers** — facultatif. Logo, photos, texte de présentation :
+   le premier visuel sert de logo, les suivants remplissent la galerie, le texte
+   devient l’introduction. Les images sont réduites à 1600 px puis réencodées.
+3. **Ajuster et exporter** — police, couleur principale, palette, sections,
+   arrondi, densité, thème. Puis `Télécharger` ou `Copier`.
+
+Sur téléphone, une bascule `Étape / Aperçu` remplace les deux colonnes.
 
 ## Architecture
 
@@ -33,28 +40,31 @@ src/
 ├── app.tsx                   composition des deux vues
 ├── index.css                 tokens de couleur, thèmes clair/sombre, utilitaires
 ├── lib/
-│   ├── spec.ts               SiteSpec : modèles, palettes, typographies, sections
+│   ├── spec.ts               SiteSpec : modèles, sections, fichiers importés
+│   ├── uipm-data.ts          généré — 192 palettes, 74 associations de polices
+│   ├── uipm.ts               correspondance brief → palette + typographie
+│   ├── color.ts              mélange, luminance, contraste, dérivation clair/sombre
+│   ├── files.ts              import, réduction et encodage des fichiers
 │   ├── content.ts            lecture du brief + bibliothèque de textes par modèle
 │   ├── generator.ts          composition du document HTML final
-│   ├── slug.ts               slugs sans accents (fichiers, ancres, URL d’aperçu)
 │   └── use-*.ts              thème, route par hash, frappe d’introduction
 └── components/
     ├── ui/                   primitives réutilisables
     ├── site/                 sections de la page d’accueil
-    └── studio/               réglages, aperçu, vue du code
+    └── studio/               assistant en trois étapes, aperçu, vue du code
 ```
 
-Le flux tient en une ligne : `brief → specFromPrompt() → SiteSpec → renderSite() → HTML`.
+Le flux tient en une ligne :
+`brief → specFromPrompt() → SiteSpec → renderSite() → HTML`.
 `SiteSpec` est la seule source de vérité ; le Studio l’édite, le moteur le rend,
 l’export l’écrit.
 
 ### Le site généré
 
-- un seul fichier, `<style>` intégré, zéro requête externe ;
-- polices en piles système (macOS, Windows, Linux) plutôt qu’en webfonts, pour que
-  le fichier téléchargé s’ouvre sans réseau ;
-- visuels en aplats CSS calculés depuis la palette choisie, à remplacer par de
-  vraies photos à l’intégration ;
+- un seul fichier, `<style>` intégré, images comprises ;
+- polices en piles système par défaut, donc zéro requête externe ; les vraies
+  Google Fonts restent possibles en un réglage, au prix d’un appel réseau ;
+- les visuels manquants sont des aplats CSS calculés depuis la palette ;
 - rendu dans un `<iframe sandbox="">` : l’aperçu n’exécute aucun script.
 
 ## Design
@@ -75,6 +85,11 @@ depuis le registre, l’accès réseau à 21st.dev étant bloqué dans l’envir
 développement utilisé ; un composant tiré du registre s’y intègre sans adaptation.
 
 ## Skills installés
+
+Le générateur s’appuie sur les bases de ce paquet : `scripts/build-uipm-data.py`
+les extrait des CSV vers `src/lib/uipm-data.ts`, puisque le navigateur ne peut
+exécuter ni Python ni le script de recherche du skill. Relancez-le après une mise
+à jour du paquet.
 
 `.claude/skills/` contient le paquet [UI/UX Pro Max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill)
 v2.11.0 (MIT), installé avec `npx ui-ux-pro-max-cli init --ai claude`. Sept skills

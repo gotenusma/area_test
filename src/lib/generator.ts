@@ -1,44 +1,8 @@
 import { contentFor, type GalleryItem, type SiteContent } from '@/lib/content'
-import {
-  paletteOf,
-  sortSections,
-  typesetOf,
-  type PaletteRamp,
-  type SiteSpec,
-  type TypeSetMeta,
-} from '@/lib/spec'
-
-/* -------------------------------------------------------------------------- */
-/*  Small colour helpers — the generated site ships literal colours so it       */
-/*  renders identically in an old browser, an iframe, or a downloaded file.     */
-/* -------------------------------------------------------------------------- */
-
-function parseHex(hex: string): [number, number, number] {
-  const h = hex.replace('#', '')
-  const full = h.length === 3 ? h.split('').map((c) => c + c).join('') : h
-  return [
-    parseInt(full.slice(0, 2), 16),
-    parseInt(full.slice(2, 4), 16),
-    parseInt(full.slice(4, 6), 16),
-  ]
-}
-
-function toHex([r, g, b]: [number, number, number]): string {
-  const clamp = (n: number) => Math.max(0, Math.min(255, Math.round(n)))
-  return `#${[r, g, b].map((n) => clamp(n).toString(16).padStart(2, '0')).join('')}`
-}
-
-/** Mix `amount` of `b` into `a` (0 → a, 1 → b). */
-export function mix(a: string, b: string, amount: number): string {
-  const [r1, g1, b1] = parseHex(a)
-  const [r2, g2, b2] = parseHex(b)
-  return toHex([r1 + (r2 - r1) * amount, g1 + (g2 - g1) * amount, b1 + (b2 - b1) * amount])
-}
-
-export function withAlpha(hex: string, alpha: number): string {
-  const [r, g, b] = parseHex(hex)
-  return `rgba(${r}, ${g}, ${b}, ${alpha})`
-}
+import { deriveRamp, mix, withAlpha } from '@/lib/color'
+import { sortSections, type Ramp, type SiteSpec } from '@/lib/spec'
+import { fontPairById, fontStack, paletteById } from '@/lib/uipm'
+import { FONT_FALLBACK } from '@/lib/uipm-data'
 
 function esc(value: string): string {
   return value
@@ -58,11 +22,67 @@ function anchor(value: string): string {
 }
 
 /* -------------------------------------------------------------------------- */
+/*  Palette and typography, resolved from the UI/UX Pro Max databases          */
+/* -------------------------------------------------------------------------- */
+
+export interface Fonts {
+  display: string
+  body: string
+  tracking: string
+  displayWeight: number
+  /** <link> tags to put in the head, empty when using system stacks. */
+  googleLink: string
+}
+
+/** System stacks that keep a pairing's character without any network request. */
+const SYSTEM_STACK: Record<string, string> = {
+  serif: "'Iowan Old Style', 'Palatino Linotype', Palatino, 'Liberation Serif', Georgia, serif",
+  'sans-serif': "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Liberation Sans', sans-serif",
+  monospace: "'SF Mono', 'Roboto Mono', Menlo, Consolas, 'Liberation Mono', monospace",
+  cursive: "'Snell Roundhand', 'Brush Script MT', cursive",
+}
+
+function systemStack(family: string): string {
+  const generic = FONT_FALLBACK[family] ?? 'sans-serif'
+  return SYSTEM_STACK[generic] ?? SYSTEM_STACK['sans-serif']
+}
+
+export function rampFor(spec: SiteSpec): Ramp {
+  return deriveRamp(paletteById(spec.paletteId), spec.dark, spec.accent)
+}
+
+export function fontsFor(spec: SiteSpec): Fonts {
+  const pair = fontPairById(spec.fontPairId)
+  const serifDisplay = (FONT_FALLBACK[pair.heading] ?? 'sans-serif') === 'serif'
+
+  if (spec.fontDelivery === 'systeme') {
+    return {
+      display: systemStack(pair.heading),
+      body: systemStack(pair.body),
+      tracking: serifDisplay ? '-0.02em' : '-0.015em',
+      displayWeight: 600,
+      googleLink: '',
+    }
+  }
+
+  return {
+    display: fontStack(pair.heading),
+    body: fontStack(pair.body),
+    tracking: serifDisplay ? '-0.02em' : '-0.015em',
+    displayWeight: 600,
+    googleLink:
+      '<link rel="preconnect" href="https://fonts.googleapis.com" />\n' +
+      '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />\n' +
+      `<link rel="stylesheet" href="${esc(pair.googleUrl)}" />`,
+  }
+}
+
+/* -------------------------------------------------------------------------- */
 /*  Artwork — four deterministic abstract fills stand in for photography,       */
 /*  built from the site's own accent so a preview never looks like a stub.      */
 /* -------------------------------------------------------------------------- */
 
-function tileArt(index: number, ramp: PaletteRamp): string {
+function tileArt(index: number, ramp: Ramp): string {
   const soft = mix(ramp.raised, ramp.accent, 0.12)
   const mid = mix(ramp.raised, ramp.accent, 0.32)
   const strong = mix(ramp.raised, ramp.accent, 0.62)
@@ -83,7 +103,7 @@ function tileArt(index: number, ramp: PaletteRamp): string {
 /*  Stylesheet                                                                 */
 /* -------------------------------------------------------------------------- */
 
-function stylesheet(spec: SiteSpec, ramp: PaletteRamp, type: TypeSetMeta): string {
+function stylesheet(spec: SiteSpec, ramp: Ramp, type: Fonts): string {
   const gap = spec.density === 'compact' ? 72 : 116
   const scale = spec.density === 'compact' ? 0.92 : 1
   const heroSize = (spec.template === 'produit' ? 4 : 4.6) * scale
@@ -129,6 +149,7 @@ ul{margin:0;padding:0;list-style:none}
 .top{position:sticky;top:0;z-index:10;background:${withAlpha(ramp.ground, 0.86)};backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
 .top .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:70px}
 .brand{display:flex;align-items:center;gap:10px;font-family:${type.display};font-weight:${type.displayWeight};font-size:1.06rem;letter-spacing:${type.tracking}}
+.brand .logo{height:30px;width:auto;max-width:150px;object-fit:contain;display:block}
 .brand .mark{width:26px;height:26px;border-radius:calc(var(--radius) * .7);background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-size:.78rem;font-weight:700;font-family:${type.body}}
 .nav{display:flex;gap:26px;font-size:.92rem;color:var(--muted)}
 @media (max-width:520px){.top .btn{padding:9px 13px;font-size:.84rem}.brand{font-size:.98rem}}
@@ -188,7 +209,7 @@ section + section{border-top:1px solid var(--line)}
 @media (max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:560px){.grid{grid-template-columns:1fr}}
 .item{display:flex;flex-direction:column;gap:12px}
-.item .art{aspect-ratio:4/3;border-radius:calc(var(--radius) * 1.4);border:1px solid var(--line)}
+.item .art{aspect-ratio:4/3;border-radius:calc(var(--radius) * 1.4);border:1px solid var(--line);width:100%;object-fit:cover;display:block}
 .item .cap{display:flex;justify-content:space-between;gap:14px;align-items:baseline}
 .item .cap strong{font-weight:550;font-size:.98rem}
 .item .cap span{font-size:.86rem;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
@@ -237,14 +258,20 @@ section + section{border-top:1px solid var(--line)}
 /*  Section renderers                                                          */
 /* -------------------------------------------------------------------------- */
 
-function galleryTile(item: GalleryItem, index: number, ramp: PaletteRamp): string {
+function galleryTile(item: GalleryItem, index: number, ramp: Ramp, spec: SiteSpec): string {
+  // Imported photos fill the grid in order; remaining tiles keep the generated art.
+  const photo = spec.assets.images[index]
+  const visual = photo
+    ? `<img class="art" src="${photo.dataUri}" alt="${esc(item.title)}" loading="lazy" />`
+    : `<div class="art" style="${tileArt(index, ramp)}"></div>`
+
   return `        <li class="item">
-          <div class="art" style="${tileArt(index, ramp)}"></div>
+          ${visual}
           <div class="cap"><strong>${esc(item.title)}</strong><span>${esc(item.meta)}</span></div>
         </li>`
 }
 
-function heroArt(spec: SiteSpec, ramp: PaletteRamp): string {
+function heroArt(spec: SiteSpec, ramp: Ramp): string {
   const a = mix(ramp.ground, ramp.accent, 0.14)
   const b = mix(ramp.ground, ramp.accent, 0.55)
   const c = mix(ramp.ground, ramp.accent, 0.85)
@@ -267,13 +294,13 @@ function heroArt(spec: SiteSpec, ramp: PaletteRamp): string {
   return `<div class="hero-art" style="background:${a};background-image:linear-gradient(122deg, ${c} 0 26%, ${b} 26% 48%, ${a} 48% 100%)"></div>`
 }
 
-function renderHero(spec: SiteSpec, c: SiteContent, ramp: PaletteRamp): string {
+function renderHero(spec: SiteSpec, c: SiteContent, ramp: Ramp): string {
   return `    <section class="hero" id="accueil">
       <div class="wrap hero-grid">
         <div>
           <p class="eyebrow">${esc(c.eyebrow)}</p>
           <h1>${esc(c.headline)}</h1>
-          <p class="lede">${esc(c.intro)}</p>
+          <p class="lede">${esc(spec.assets.notes.trim() || c.intro)}</p>
           <div class="actions">
             <a class="btn btn-primary" href="#${anchor(c.contactTitle)}">${esc(c.primaryCta)}</a>
             <a class="btn btn-ghost" href="#${anchor(c.offerTitle)}">${esc(c.secondaryCta)}</a>
@@ -335,7 +362,7 @@ ${body}
     </section>`
 }
 
-function renderGallery(c: SiteContent, ramp: PaletteRamp): string {
+function renderGallery(c: SiteContent, ramp: Ramp, spec: SiteSpec): string {
   return `    <section id="${anchor(c.galleryTitle)}">
       <div class="wrap">
         <div class="head">
@@ -343,7 +370,7 @@ function renderGallery(c: SiteContent, ramp: PaletteRamp): string {
           <p class="lede">${esc(c.galleryIntro)}</p>
         </div>
         <ul class="grid">
-${c.gallery.map((item, i) => galleryTile(item, i, ramp)).join('\n')}
+${c.gallery.map((item, i) => galleryTile(item, i, ramp, spec)).join('\n')}
         </ul>
       </div>
     </section>`
@@ -420,9 +447,8 @@ function renderContact(c: SiteContent): string {
 /* -------------------------------------------------------------------------- */
 
 export function renderSite(spec: SiteSpec): string {
-  const palette = paletteOf(spec.palette)
-  const ramp = spec.dark ? palette.dark : palette.light
-  const type = typesetOf(spec.typeset)
+  const ramp = rampFor(spec)
+  const type = fontsFor(spec)
   const c = contentFor(spec)
   const sections = sortSections(spec.sections)
 
@@ -461,7 +487,7 @@ export function renderSite(spec: SiteSpec): string {
         case 'offre':
           return renderOffer(spec, c)
         case 'galerie':
-          return renderGallery(c, ramp)
+          return renderGallery(c, ramp, spec)
         case 'temoignages':
           return renderQuotes(c)
         case 'tarifs':
@@ -473,6 +499,9 @@ export function renderSite(spec: SiteSpec): string {
     .join('\n')
 
   const initial = spec.name.trim().charAt(0).toUpperCase() || 'F'
+  const brandMark = spec.assets.logo
+    ? `<img class="logo" src="${spec.assets.logo.dataUri}" alt="${esc(spec.name)}" />`
+    : `<span class="mark">${esc(initial)}</span>`
   const year = new Date().getFullYear()
 
   return `<!doctype html>
@@ -483,6 +512,7 @@ export function renderSite(spec: SiteSpec): string {
 <title>${esc(spec.name)} — ${esc(spec.tagline)}</title>
 <meta name="description" content="${esc(spec.tagline)}" />
 <meta name="theme-color" content="${ramp.ground}" />
+${type.googleLink}
 <style>
 ${stylesheet(spec, ramp, type)}
 </style>
@@ -490,7 +520,7 @@ ${stylesheet(spec, ramp, type)}
 <body data-template="${spec.template}">
   <header class="top">
     <div class="wrap">
-      <a class="brand" href="#accueil"><span class="mark">${esc(initial)}</span>${esc(spec.name)}</a>
+      <a class="brand" href="#accueil">${brandMark}${esc(spec.name)}</a>
       <nav class="nav">
 ${navLinks}
       </nav>

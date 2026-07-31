@@ -8,7 +8,8 @@ import { DEVICE_OPTIONS, type Device } from '@/lib/device'
 import { specFromPrompt } from '@/lib/content'
 import { renderSite } from '@/lib/generator'
 import { slugify } from '@/lib/slug'
-import { TEMPLATES, paletteOf, type TemplateId } from '@/lib/spec'
+import { TEMPLATES, type TemplateId } from '@/lib/spec'
+import { paletteById } from '@/lib/uipm'
 
 /** Each model is demonstrated with the brief that naturally lands on it. */
 const BRIEF_FOR: Record<TemplateId, string> = {
@@ -24,7 +25,7 @@ export function Templates() {
 
   const spec = useMemo(() => specFromPrompt(BRIEF_FOR[active], { template: active }), [active])
   const html = useMemo(() => renderSite(spec), [spec])
-  const palette = paletteOf(spec.palette)
+  const palette = paletteById(spec.paletteId)
 
   return (
     <section id="modeles" className="border-b border-edge py-20 lg:py-28">
@@ -92,9 +93,9 @@ export function Templates() {
               <div className="flex items-center gap-2.5">
                 <span className="eyebrow">Palette retenue</span>
                 <span className="flex items-center gap-1" aria-hidden>
-                  {palette.swatch.map((hex) => (
+                  {[palette.ground, palette.ink, palette.accent].map((hex, index) => (
                     <span
-                      key={hex}
+                      key={`${hex}-${index}`}
                       className="size-4 rounded-[4px] border border-edge"
                       style={{ background: hex }}
                     />

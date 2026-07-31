@@ -1,6 +1,7 @@
-import type { PaletteId, SiteSpec, TemplateId, TypeSetId } from '@/lib/spec'
+import type { SiteSpec, TemplateId } from '@/lib/spec'
 import { slugify } from '@/lib/slug'
-import { templateOf } from '@/lib/spec'
+import { matchBrief } from '@/lib/uipm'
+import { EMPTY_ASSETS, templateOf } from '@/lib/spec'
 
 export interface Stat {
   value: string
@@ -500,35 +501,6 @@ const TEMPLATE_RULES: Rule<TemplateId>[] = [
   },
 ]
 
-const PALETTE_RULES: Rule<PaletteId>[] = [
-  {
-    value: 'foret',
-    words: ['bio', 'nature', 'végétal', 'vegetal', 'jardin', 'écolo', 'ecolo', 'plante', 'forêt', 'foret', 'ferme', 'durable'],
-  },
-  {
-    value: 'agrume',
-    words: ['chaleureux', 'chaleureuse', 'solaire', 'orange', 'méditerran', 'mediterran', 'épices', 'epices', 'boulangerie', 'miel', 'artisanal'],
-  },
-  {
-    value: 'encre',
-    words: ['saas', 'logiciel', 'technique', 'sérieux', 'serieux', 'finance', 'juridique', 'avocat', 'b2b', 'sobre', 'bleu', 'données', 'donnees'],
-  },
-  {
-    value: 'argile',
-    words: ['rouge', 'terre', 'poterie', 'céramique', 'ceramique', 'vin', 'brique', 'terracotta', 'bordeaux'],
-  },
-  {
-    value: 'violette',
-    words: ['violet', 'créatif', 'creatif', 'moderne', 'audacieux', 'nuit', 'électronique', 'electronique'],
-  },
-]
-
-const TYPESET_RULES: Rule<TypeSetId>[] = [
-  { value: 'editorial', words: ['élégant', 'elegant', 'raffiné', 'raffine', 'classique', 'luxe', 'revue', 'magazine', 'librairie', 'gastronomi'] },
-  { value: 'mecanique', words: ['technique', 'développeur', 'developpeur', 'code', 'api', 'brut', 'industriel', 'logiciel'] },
-  { value: 'geometrique', words: ['moderne', 'net', 'minimal', 'épuré', 'epure', 'startup', 'clair'] },
-]
-
 function firstMatch<T>(prompt: string, rules: Rule<T>[]): T | null {
   const hay = prompt.toLowerCase()
   let best: { value: T; at: number } | null = null
@@ -581,14 +553,9 @@ function readName(prompt: string, template: TemplateId): string {
  */
 export function specFromPrompt(prompt: string, base?: Partial<SiteSpec>): SiteSpec {
   const template = base?.template ?? firstMatch(prompt, TEMPLATE_RULES) ?? 'studio'
-  const palette =
-    base?.palette ??
-    firstMatch(prompt, PALETTE_RULES) ??
-    (template === 'produit' ? 'encre' : template === 'table' ? 'agrume' : 'violette')
-  const typeset =
-    base?.typeset ??
-    firstMatch(prompt, TYPESET_RULES) ??
-    (template === 'table' ? 'editorial' : template === 'produit' ? 'geometrique' : 'geometrique')
+  /* Palette and typography are chosen by scoring the brief against the
+     UI/UX Pro Max databases — 192 palettes and 74 pairings. */
+  const match = matchBrief(prompt)
   const name = base?.name ?? readName(prompt, template)
 
   return {
@@ -596,11 +563,14 @@ export function specFromPrompt(prompt: string, base?: Partial<SiteSpec>): SiteSp
     tagline: base?.tagline ?? TAGLINES[template],
     prompt,
     template,
-    palette,
-    typeset,
+    paletteId: base?.paletteId ?? match.palette.id,
+    accent: base?.accent ?? null,
+    fontPairId: base?.fontPairId ?? match.fontPair.id,
+    fontDelivery: base?.fontDelivery ?? 'systeme',
     sections: base?.sections ?? templateOf(template).defaults,
     radius: base?.radius ?? (template === 'produit' ? 12 : template === 'table' ? 2 : 6),
     density: base?.density ?? 'aere',
     dark: base?.dark ?? false,
+    assets: base?.assets ?? EMPTY_ASSETS,
   }
 }

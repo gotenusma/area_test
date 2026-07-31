@@ -2,11 +2,13 @@
  * The spec is the single source of truth for a generated site. The Studio
  * edits it, the engine renders it, and the export writes it out — nothing
  * else holds state about the site being produced.
+ *
+ * Palettes and font pairings come from the UI/UX Pro Max databases
+ * (see lib/uipm.ts); everything below is the structure around them.
  */
 
 export type TemplateId = 'studio' | 'boutique' | 'produit' | 'table'
-export type PaletteId = 'violette' | 'encre' | 'agrume' | 'foret' | 'argile'
-export type TypeSetId = 'editorial' | 'geometrique' | 'mecanique'
+export type FontDelivery = 'systeme' | 'google'
 export type SectionId =
   | 'accueil'
   | 'preuves'
@@ -16,37 +18,42 @@ export type SectionId =
   | 'tarifs'
   | 'contact'
 
+/** A file the user brought in, held as a data URI so nothing leaves the page. */
+export interface ImportedFile {
+  id: string
+  name: string
+  dataUri: string
+  bytes: number
+}
+
+export interface SiteAssets {
+  logo: ImportedFile | null
+  images: ImportedFile[]
+  /** Plain text pulled from an imported .txt/.md, used as the intro copy. */
+  notes: string
+}
+
 export interface SiteSpec {
   name: string
   tagline: string
   prompt: string
   template: TemplateId
-  palette: PaletteId
-  typeset: TypeSetId
+  /** Id into UIPM_PALETTES. */
+  paletteId: string
+  /** Overrides the palette's accent when the user picks a colour by hand. */
+  accent: string | null
+  /** Id into UIPM_FONT_PAIRS. */
+  fontPairId: string
+  fontDelivery: FontDelivery
   sections: SectionId[]
   radius: number
   density: 'aere' | 'compact'
   dark: boolean
+  assets: SiteAssets
 }
 
-export interface TemplateMeta {
-  id: TemplateId
-  label: string
-  blurb: string
-  /** Sections switched on when this template is picked. */
-  defaults: SectionId[]
-}
-
-export interface PaletteMeta {
-  id: PaletteId
-  label: string
-  /** Swatch order: ground, ink, accent. */
-  swatch: [string, string, string]
-  light: PaletteRamp
-  dark: PaletteRamp
-}
-
-export interface PaletteRamp {
+/** The colour roles the generated stylesheet is written against. */
+export interface Ramp {
   ground: string
   raised: string
   ink: string
@@ -56,14 +63,11 @@ export interface PaletteRamp {
   accentInk: string
 }
 
-export interface TypeSetMeta {
-  id: TypeSetId
+export interface TemplateMeta {
+  id: TemplateId
   label: string
-  display: string
-  body: string
-  /** Tracking applied to display type, in em. */
-  tracking: string
-  displayWeight: number
+  blurb: string
+  defaults: SectionId[]
 }
 
 export const TEMPLATES: TemplateMeta[] = [
@@ -93,159 +97,6 @@ export const TEMPLATES: TemplateMeta[] = [
   },
 ]
 
-export const PALETTES: PaletteMeta[] = [
-  {
-    id: 'violette',
-    label: 'Violette',
-    swatch: ['#ffffff', '#191324', '#6c2bd9'],
-    light: {
-      ground: '#ffffff',
-      raised: '#f7f4ff',
-      ink: '#191324',
-      muted: '#665d7b',
-      line: '#e8e1f7',
-      accent: '#6c2bd9',
-      accentInk: '#ffffff',
-    },
-    dark: {
-      ground: '#100c19',
-      raised: '#1b1428',
-      ink: '#f6f3fc',
-      muted: '#a89ec0',
-      line: '#2c2140',
-      accent: '#a78bfa',
-      accentInk: '#180f2c',
-    },
-  },
-  {
-    id: 'encre',
-    label: 'Encre',
-    swatch: ['#ffffff', '#0f1729', '#1d4ed8'],
-    light: {
-      ground: '#ffffff',
-      raised: '#f3f6fc',
-      ink: '#0f1729',
-      muted: '#5b6478',
-      line: '#e2e8f3',
-      accent: '#1d4ed8',
-      accentInk: '#ffffff',
-    },
-    dark: {
-      ground: '#0b1120',
-      raised: '#141d31',
-      ink: '#f1f5fc',
-      muted: '#9aa6bd',
-      line: '#22304b',
-      accent: '#7ea6ff',
-      accentInk: '#0b1120',
-    },
-  },
-  {
-    id: 'agrume',
-    label: 'Agrume',
-    swatch: ['#fffdf8', '#231a12', '#d2600f'],
-    light: {
-      ground: '#fffdf8',
-      raised: '#fdf4e8',
-      ink: '#231a12',
-      muted: '#6f6152',
-      line: '#f0e3d1',
-      accent: '#d2600f',
-      accentInk: '#ffffff',
-    },
-    dark: {
-      ground: '#17110c',
-      raised: '#231a12',
-      ink: '#fbf3e8',
-      muted: '#bda992',
-      line: '#382a1e',
-      accent: '#f59e42',
-      accentInk: '#17110c',
-    },
-  },
-  {
-    id: 'foret',
-    label: 'Forêt',
-    swatch: ['#fbfdfb', '#11201a', '#0f7a52'],
-    light: {
-      ground: '#fbfdfb',
-      raised: '#eef6f1',
-      ink: '#11201a',
-      muted: '#4f6459',
-      line: '#dbe9e1',
-      accent: '#0f7a52',
-      accentInk: '#ffffff',
-    },
-    dark: {
-      ground: '#0b1512',
-      raised: '#132320',
-      ink: '#eef7f2',
-      muted: '#9bb5a8',
-      line: '#1f352e',
-      accent: '#4ec295',
-      accentInk: '#0b1512',
-    },
-  },
-  {
-    id: 'argile',
-    label: 'Argile',
-    swatch: ['#fdfbfb', '#241a1c', '#a8323f'],
-    light: {
-      ground: '#fdfbfb',
-      raised: '#f7eeee',
-      ink: '#241a1c',
-      muted: '#6c5a5d',
-      line: '#eddede',
-      accent: '#a8323f',
-      accentInk: '#ffffff',
-    },
-    dark: {
-      ground: '#170f11',
-      raised: '#241a1c',
-      ink: '#faf0f1',
-      muted: '#c0a2a6',
-      line: '#382528',
-      accent: '#ef7f8c',
-      accentInk: '#170f11',
-    },
-  },
-]
-
-/*
- * Generated sites use font stacks rather than webfonts: the export must render
- * with zero network requests. Each stack walks macOS, then Windows, then the
- * common Linux faces, before landing on the generic family.
- */
-export const TYPESETS: TypeSetMeta[] = [
-  {
-    id: 'editorial',
-    label: 'Éditoriale',
-    display:
-      "'Iowan Old Style', 'Palatino Linotype', Palatino, 'Liberation Serif', 'DejaVu Serif', Georgia, serif",
-    body: "'Helvetica Neue', Helvetica, 'Liberation Sans', Arial, sans-serif",
-    tracking: '-0.02em',
-    displayWeight: 600,
-  },
-  {
-    id: 'geometrique',
-    label: 'Géométrique',
-    display:
-      "Futura, 'Avenir Next', 'Century Gothic', 'URW Gothic', 'Trebuchet MS', 'DejaVu Sans', sans-serif",
-    body: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Liberation Sans', sans-serif",
-    tracking: '-0.015em',
-    displayWeight: 600,
-  },
-  {
-    id: 'mecanique',
-    label: 'Mécanique',
-    display:
-      "'SF Mono', 'Roboto Mono', Menlo, Consolas, 'Liberation Mono', 'DejaVu Sans Mono', monospace",
-    body: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Liberation Sans', sans-serif",
-    tracking: '-0.04em',
-    displayWeight: 500,
-  },
-]
-
 export const SECTION_LABELS: Record<SectionId, string> = {
   accueil: 'Accueil',
   preuves: 'Chiffres',
@@ -271,14 +122,8 @@ export function sortSections(sections: SectionId[]): SectionId[] {
   return SECTION_ORDER.filter((id) => sections.includes(id))
 }
 
-export function paletteOf(id: PaletteId): PaletteMeta {
-  return PALETTES.find((p) => p.id === id) ?? PALETTES[0]
-}
-
-export function typesetOf(id: TypeSetId): TypeSetMeta {
-  return TYPESETS.find((t) => t.id === id) ?? TYPESETS[0]
-}
-
 export function templateOf(id: TemplateId): TemplateMeta {
   return TEMPLATES.find((t) => t.id === id) ?? TEMPLATES[0]
 }
+
+export const EMPTY_ASSETS: SiteAssets = { logo: null, images: [], notes: '' }

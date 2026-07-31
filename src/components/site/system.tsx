@@ -1,7 +1,8 @@
 import { FileCode2, Moon, SlidersHorizontal, Type } from 'lucide-react'
 import { Reveal } from '@/components/ui/reveal'
 import { cn } from '@/lib/cn'
-import { PALETTES, SECTION_LABELS, SECTION_ORDER, TYPESETS } from '@/lib/spec'
+import { SECTION_LABELS, SECTION_ORDER } from '@/lib/spec'
+import { UIPM_FONT_PAIRS, UIPM_PALETTES } from '@/lib/uipm'
 
 function Panel({
   className,
@@ -42,6 +43,12 @@ function PanelHead({
   )
 }
 
+const SAMPLE_PALETTES = ['SaaS (General)', 'Bakery/Cafe', 'Beauty/Spa/Wellness Service', 'Architecture / Interior', 'Banking/Traditional Finance']
+  .map((label) => UIPM_PALETTES.find((p) => p.label === label))
+  .filter((p): p is (typeof UIPM_PALETTES)[number] => Boolean(p))
+
+const SAMPLE_PAIRS = UIPM_FONT_PAIRS.slice(0, 3)
+
 export function System() {
   return (
     <section id="systeme" className="border-b border-edge bg-tint py-20 lg:py-28">
@@ -49,8 +56,8 @@ export function System() {
         <Reveal className="flex flex-col gap-4">
           <p className="eyebrow">Le système</p>
           <h2 className="max-w-[28ch] text-[clamp(1.9rem,3.4vw,2.7rem)]">
-            Sept blocs, cinq palettes, trois typographies. Assez pour être précis, assez peu pour
-            décider vite.
+            Sept blocs, {UIPM_PALETTES.length} palettes, {UIPM_FONT_PAIRS.length} associations de
+            polices. Le brief choisit, vous tranchez.
           </h2>
         </Reveal>
 
@@ -89,20 +96,25 @@ export function System() {
 
           <Reveal delay={0.06}>
             <Panel className="h-full">
-              <PanelHead label="Palettes" title="Cinq accords, jamais un dégradé par défaut" />
+              <PanelHead
+                label="Palettes"
+                title={`${UIPM_PALETTES.length} accords, indexés par métier`}
+              />
               <ul className="flex flex-col gap-2.5">
-                {PALETTES.map((palette) => (
+                {SAMPLE_PALETTES.map((palette) => (
                   <li key={palette.id} className="flex items-center gap-3">
-                    <span className="flex gap-1" aria-hidden>
-                      {palette.swatch.map((hex) => (
-                        <span
-                          key={hex}
-                          className="size-5 rounded-[5px] border border-edge"
-                          style={{ background: hex }}
-                        />
-                      ))}
+                    <span className="flex shrink-0 gap-1" aria-hidden>
+                      {[palette.ground, palette.raised, palette.ink, palette.accent].map(
+                        (hex, index) => (
+                          <span
+                            key={`${palette.id}-${index}`}
+                            className="size-5 rounded-[5px] border border-edge"
+                            style={{ background: hex }}
+                          />
+                        ),
+                      )}
                     </span>
-                    <span className="text-[0.9375rem]">{palette.label}</span>
+                    <span className="truncate text-[0.9375rem]">{palette.label}</span>
                   </li>
                 ))}
               </ul>
@@ -111,18 +123,20 @@ export function System() {
 
           <Reveal delay={0.02}>
             <Panel className="h-full">
-              <PanelHead icon={Type} label="Typographies" title="Trois accords, pas trois cents" />
+              <PanelHead
+                icon={Type}
+                label="Typographies"
+                title={`${UIPM_FONT_PAIRS.length} associations prêtes`}
+              />
               <ul className="flex flex-col gap-3">
-                {TYPESETS.map((set) => (
-                  <li key={set.id} className="flex flex-col gap-1 border-t border-edge pt-3 first:border-0 first:pt-0">
-                    <span
-                      className="text-[1.35rem] leading-tight"
-                      style={{ fontFamily: set.display, letterSpacing: set.tracking }}
-                    >
-                      Fabrique
-                    </span>
-                    <span className="font-mono text-[0.6875rem] tracking-wider uppercase text-ink-faint">
-                      {set.label}
+                {SAMPLE_PAIRS.map((pair) => (
+                  <li
+                    key={pair.id}
+                    className="flex flex-col gap-1 border-t border-edge pt-3 first:border-0 first:pt-0"
+                  >
+                    <span className="text-[1.05rem] leading-tight font-medium">{pair.label}</span>
+                    <span className="truncate font-mono text-[0.6875rem] tracking-wider text-ink-faint">
+                      {pair.heading} / {pair.body}
                     </span>
                   </li>
                 ))}
@@ -136,12 +150,13 @@ export function System() {
               <pre className="scroll-x rounded-xl border border-edge bg-paper p-4 font-mono text-[0.75rem] leading-relaxed text-ink-soft">
                 <code>{`site.html
 ├── <style> intégré
+├── images intégrées
 ├── polices système
 └── 0 requête externe`}</code>
               </pre>
               <p className="text-[0.9375rem] leading-relaxed text-ink-soft">
                 Déposez le fichier sur n’importe quel hébergeur, ou ouvrez-le directement. Il n’y a
-                rien à construire.
+                rien à construire. Les vraies Google Fonts restent possibles, au prix d’une requête.
               </p>
             </Panel>
           </Reveal>
